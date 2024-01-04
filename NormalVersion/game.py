@@ -1,5 +1,6 @@
 import pygame
 import sys
+from minimax import makeMove
 
 # Initialize Pygame
 pygame.init()
@@ -78,7 +79,7 @@ def clean_board():
             board[row][col] = 0
 
 
-def check_win_or_tie():
+def check_win_or_tie(board):
     # Check rows
     for row in range(BOARD_ROWS):
         if board[row][0] == board[row][1] == board[row][2] != 0:
@@ -110,11 +111,14 @@ def check_win_or_tie():
 
 
 def main():
+    global board
 
     result = None
 
     draw_lines()
-    player = 1
+    player = 2
+
+    game_count = 0
 
     while True:
         for event in pygame.event.get():
@@ -122,33 +126,41 @@ def main():
                 sys.exit()
 
             if (event.type == pygame.KEYDOWN and event.key == pygame.K_r):
-                result = None
-                player = 1
                 clean_board()
+                result = None
+                game_count += 1
 
-            if event.type == pygame.MOUSEBUTTONDOWN and not result:
-                mouseX = event.pos[0] // 100
-                mouseY = event.pos[1] // 100
-
-                if board[mouseY][mouseX] == 1 or board[mouseY][mouseX] == 2:
-                    continue
-
-                if player == 1:
-                    board[mouseY][mouseX] = 1
+                if game_count % 2 == 0:
                     player = 2
-                elif player == 2:
-                    board[mouseY][mouseX] = 2
+                else:
                     player = 1
+
+            if (event.type == pygame.MOUSEBUTTONDOWN or player == 2) and result == None:
+
+                if player == 2:
+                    board = makeMove(board, result)
+                    player = 1
+
+                else:
+                    mouseX = event.pos[0] // 100
+                    mouseY = event.pos[1] // 100
+
+                    if board[mouseY][mouseX] == 1 or board[mouseY][mouseX] == 2:
+                        continue
+
+                    if player == 1:
+                        board[mouseY][mouseX] = 1
+                        player = 2
 
                 draw_figures()
 
-                result = check_win_or_tie()
+                result = check_win_or_tie(board)
                 if result != 0 and result != None:
-                    print("Press 'r' to restart!")
+                    print("Press 'R' to restart!")
                 if result == 1:
                     print('Player 1 wins!')
                 elif result == 2:
-                    print('Player 2 wins!')
+                    print('AI wins!')
                 elif result == 0:
                     print('Tie!')
 
