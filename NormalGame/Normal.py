@@ -1,9 +1,9 @@
 import pygame
 import sys
-from minimax import make_move
+from NormalGame.minimax import make_move
 
 
-class TicTacToe:
+class NormalGame:
     def __init__(self, max_depth=-1):
         pygame.init()
         self.width, self.height = 300, 300
@@ -110,10 +110,14 @@ class TicTacToe:
 
     def main_loop(self):
         result = None
+
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                if event.type == pygame.QUIT:
                     sys.exit()
+
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    sys.exit()  # TODO make return to menu instead
 
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_r):
                     self.clean_board()
@@ -148,5 +152,5 @@ class TicTacToe:
 
 
 if __name__ == '__main__':
-    game = TicTacToe()
+    game = NormalGame()
     game.run()
