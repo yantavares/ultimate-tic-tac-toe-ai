@@ -67,7 +67,7 @@ def minimax(board, isMaximizing, depth, maxDepth, rows=3, cols=3):
         return bestScore
 
 
-def makeMove(board, maxDepth=-1, rows=3, cols=3):
+def make_move(board, maxDepth, rows=3, cols=3):
     bestScore = -math.inf
     bestMoves = []
 
