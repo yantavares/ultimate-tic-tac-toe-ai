@@ -123,6 +123,7 @@ def main():
 
             if (event.type == pygame.KEYDOWN and event.key == pygame.K_r):
                 result = None
+                player = 1
                 clean_board()
 
             if event.type == pygame.MOUSEBUTTONDOWN and not result:
