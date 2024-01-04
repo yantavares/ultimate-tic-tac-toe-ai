@@ -2,7 +2,33 @@
 
 ## Overview
 
-This project features an AI-powered Ultimate Tic-Tac-Toe game. Ultimate Tic-Tac-Toe takes the classic game and adds a layer of complexity, with each cell of the Tic-Tac-Toe board containing another Tic-Tac-Toe board. The AI uses reinforcement learning to train itself for an arbitrary amount of time, continually improving its strategy. Players can choose to play the classic version or the more complex Ultimate version against the AI.
+This project features an AI-powered Ultimate Tic-Tac-Toe game using the Minimax Algorithm. Ultimate Tic-Tac-Toe takes the classic game and adds a layer of complexity, with each cell of the Tic-Tac-Toe board containing another Tic-Tac-Toe board. The AI uses reinforcement learning to train itself for an arbitrary amount of time, continually improving its strategy. Players can choose to play the classic version or the more complex Ultimate version against the AI.
+
+## Minimax Algorithm
+
+### Overview
+
+This project employs the Minimax algorithm to enhance the AI's decision-making abilities in both the Classic and Ultimate versions of Tic-Tac-Toe. Minimax is a recursive algorithm used in decision-making and game theory to find the optimal move for a player, assuming that the opponent is also playing optimally.
+
+### How Minimax Works
+
+The Minimax algorithm works by simulating all possible moves in the game (both by the AI and its opponent), creating a game tree of possibilities. Each node of the tree represents a possible state of the game after a series of moves. The algorithm explores these nodes, assigning a score to each possible state:
+
+- **Positive Score:** Indicates a state where the AI wins.
+- **Negative Score:** Represents a state where the opponent wins.
+- **Zero Score:** Denotes a draw.
+
+The algorithm performs the following steps:
+
+1. **Generate Game Tree:** Starting from the current state of the game, the algorithm generates all possible moves and their outcomes, building a tree of game states.
+
+2. **Evaluate Leaf Nodes:** At the leaf nodes (where the game ends), the algorithm evaluates the outcome assigning scores (win, lose, draw).
+
+3. **Minimize and Maximize:** The algorithm assumes that the AI aims to maximize its score (win), while the opponent aims to minimize the AI's score (making the AI lose). At each level, the algorithm chooses the move that provides the maximum score for the AI and the minimum score for the opponent.
+
+4. **Recursion:** The process continues recursively, with the algorithm moving back up the tree, selecting the best possible move at each level, until it reaches the current state of the game.
+
+5. **Best Move:** The top of the tree then contains the AI's optimal move based on the assumption that the opponent also plays optimally.
 
 ## Ultimate Tic-Tac-Toe: How It Works
 
