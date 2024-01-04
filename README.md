@@ -1,4 +1,4 @@
-# Ultimate Tic-Tac-Toe AI
+# Ultimate Tic-Tac-Toe AI - Work in progress
 
 ## Overview
 
