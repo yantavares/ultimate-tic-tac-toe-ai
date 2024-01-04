@@ -21,7 +21,7 @@ Main Board:      | Small Board:
 ```
 
 <div style="text-align: center;">
-    <img src="assets/ultimate_board.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" style="margin: 0 auto; display: block;"/>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Ultimate_tic-tac-toe_X_victory.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" style="margin: 0 auto; display: block;"/>
 
     <figcaption style="margin: 0 auto;">
         Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from
