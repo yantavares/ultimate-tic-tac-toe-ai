@@ -40,7 +40,7 @@ In Ultimate Tic-Tac-Toe, each move affects which board the next player must play
 Main Board:     |   Small Board:
 [0][1][2]       |   [0][1][2]
 [3][4][5]  ->   |   [3][4][5]
-[6][7][8]       |   [6][7][8]
+[6][7][8]       |   [6] [7][8]
 
 - Each cell [0]-[8] in the Main Board contains a full Small Board.
 - A move in cell [n] in any Small Board directs the next move to the Small Board at cell [n] in the Main Board.
