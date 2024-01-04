@@ -24,10 +24,12 @@ Main Board:      | Small Board:
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Ultimate_tic-tac-toe_X_victory.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" width="300" style="margin: 0 auto; display: block;"/>
 </div>
 
-<figcaption style="margin: 0 auto;" align="center">
-    Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from
-    <a href="https://commons.wikimedia.org/wiki/File:Ultimate_tic-tac-toe_X_victory.png">Wikimedia</a>
-</figcaption>
+<div id="caption" align="center">
+    <figcaption style="margin: 0 auto;" align="center">
+        Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from
+        <a href="https://commons.wikimedia.org/wiki/File:Ultimate_tic-tac-toe_X_victory.png">Wikimedia</a>
+    </figcaption>
+</div>
 
 ## Installation
 
