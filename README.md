@@ -20,7 +20,7 @@ Main Board:      | Small Board:
 - A move in cell [n] in any Small Board directs the next move to the Small Board at cell [n] in the Main Board.
 ```
 
-<img src="assets/ultimate_board.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" width="300" />
+<img src="assets/ultimate_board.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" width="300" center />
 
 <figcaption>
     Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from 
