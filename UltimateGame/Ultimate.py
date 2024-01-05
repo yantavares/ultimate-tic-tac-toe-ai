@@ -8,7 +8,7 @@ else:
 
 
 class UltimateGame:
-    def __init__(self, max_depth=-1):
+    def __init__(self, max_depth=4):
         pygame.init()
         self.width, self.height = 600, 600
         self.line_width = 2
@@ -166,6 +166,7 @@ class UltimateGame:
                     self.game_over = False
                     self.result_small_boards = [
                         [0 for _ in range(3)] for _ in range(3)]
+                    self.locked_locations = []  # Reset locked locations as well
                     self.screen.fill(self.bg_color)
                     self.draw_lines()
 
@@ -180,14 +181,15 @@ class UltimateGame:
                     self.draw_figures()
 
                 if self.player == 2 and not self.game_over:
-                    self.board = make_move(self.board, 3, 9, 9)
+                    self.board = make_move(
+                        self.board, self.max_depth, 9, 9)
                     self.player = 1
                     self.draw_figures()
 
             if self.game_over:
                 self.update_small_boards()
                 result = self.check_win_or_tie()
-                if result is not None:
+                if result is not None and not self.message_shown:  # Add a condition to prevent repetitive messages
                     if result == 0:
                         print("Tie!")
                     elif result == 1:
@@ -196,9 +198,12 @@ class UltimateGame:
                         print("AI wins!")
                     else:
                         raise ValueError("Invalid result")
+                    self.message_shown = True  # Set flag to indicate message has been shown
+            else:
+                self.check_win_or_tie()
+                self.update_small_boards()
+                self.message_shown = False  # Reset flag when game is not over
 
-            self.check_win_or_tie()
-            self.update_small_boards()
             pygame.display.update()
 
 
