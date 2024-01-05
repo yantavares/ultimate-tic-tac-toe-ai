@@ -1,6 +1,11 @@
 import pygame
 import sys
 
+if __name__ == "__main__":
+    from minimax import make_move
+else:
+    from UltimateGame.minimax import make_move
+
 
 class UltimateGame:
     def __init__(self, max_depth=-1):
@@ -11,11 +16,13 @@ class UltimateGame:
         self.cell_size = self.width // self.cols
         self.bg_color = (28, 170, 156)
         self.line_color = (23, 145, 135)
-        self.main_line_color = (0, 0, 0)  # Black color for main lines
+        self.main_line_color = (0, 0, 0)
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Ultimate Tic Tac Toe')
         self.board = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         self.player = 1  # Player 1 starts (represented by 1, player 2 by 2)
+
+        self.max_depth = max_depth
 
     def run(self):
         self.screen.fill(self.bg_color)

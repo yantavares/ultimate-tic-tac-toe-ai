@@ -1,6 +1,10 @@
 import pygame
 import sys
-from NormalGame.minimax import make_move
+
+if __name__ == "__main__":
+    from minimax import make_move
+else:
+    from NormalGame.minimax import make_move
 
 
 class NormalGame:
