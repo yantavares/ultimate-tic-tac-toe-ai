@@ -86,8 +86,3 @@ class Menu:
     def start_game(self, game_class):
         game = game_class(self.moves_ahead)
         game.run()
-
-
-if __name__ == '__main__':
-    menu = Menu()
-    menu.run()
