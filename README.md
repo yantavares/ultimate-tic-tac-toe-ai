@@ -1,99 +1,75 @@
-# Ultimate Tic-Tac-Toe AI - Work in progress
+# Ultimate Tic-Tac-Toe AI
 
-## Overview
+Welcome to the Ultimate Tic-Tac-Toe AI project! This application takes the beloved game of Tic-Tac-Toe and elevates it with a challenging twist and AI integration. You can test your skills against an advanced AI opponent in both the Classic and Ultimate versions of Tic-Tac-Toe.
 
-This project features an AI-powered Ultimate Tic-Tac-Toe game using the Minimax Algorithm. Ultimate Tic-Tac-Toe takes the classic game and adds a layer of complexity, with each cell of the Tic-Tac-Toe board containing another Tic-Tac-Toe board. The AI uses reinforcement learning to train itself for an arbitrary amount of time, continually improving its strategy. Players can choose to play the classic version or the more complex Ultimate version against the AI.
+## Project Overview
 
-## Minimax Algorithm
+Ultimate Tic-Tac-Toe is a more complex variant of the traditional Tic-Tac-Toe. The game board consists of a 3x3 grid, where each cell itself is a smaller 3x3 Tic-Tac-Toe board. The AI, powered by the Minimax algorithm with variable depth, calculates moves ahead, providing a challenging gameplay experience.
 
-### Overview
+### Key Features:
 
-This project employs the Minimax algorithm to enhance the AI's decision-making abilities in both the Classic and Ultimate versions of Tic-Tac-Toe. Minimax is a recursive algorithm used in decision-making and game theory to find the optimal move for a player, assuming that the opponent is also playing optimally.
+- **Two Modes:** Classic and Ultimate Tic-Tac-Toe.
+- **Advanced AI:** AI uses the Minimax algorithm to simulate game scenarios.
+- **Customizable Difficulty:** Adjustable AI depth to set the challenge level.
+- **Interactive UI:** Engaging user interface for a seamless gaming experience.
 
-### How Minimax Works
+## The Minimax Algorithm
 
-The Minimax algorithm works by simulating all possible moves in the game (both by the AI and its opponent), creating a game tree of possibilities. Each node of the tree represents a possible state of the game after a series of moves. The algorithm explores these nodes, assigning a score to each possible state:
+The Minimax algorithm is a decision-making tool used in artificial intelligence for optimal game-playing. Here's a breakdown of how it functions in our game:
 
-- **Positive Score:** Indicates a state where the AI wins.
-- **Negative Score:** Represents a state where the opponent wins.
-- **Zero Score:** Denotes a draw.
+1. **Game Tree Generation:** It starts from the current game state and simulates all possible moves.
+2. **Scoring System:** Each end state of the game is scored based on whether it's a win, loss, or draw.
+3. **Optimization:** The algorithm seeks to maximize the AI's score while assuming the opponent is trying to do the opposite.
+4. **Recursion and Backtracking:** Through recursion, it evaluates the best possible move from the current state.
+5. **Depth Parameter:** The depth parameter controls how many moves ahead the AI will calculate, impacting the difficulty level.
 
-The algorithm performs the following steps:
+[![MinMax](https://img.youtube.com/vi/zDskcx8FStA/0.jpg)](https://www.youtube.com/watch?v=zDskcx8FStA)
 
-1. **Generate Game Tree:** Starting from the current state of the game, the algorithm generates all possible moves and their outcomes, building a tree of game states.
+_Click on this video to see a beautiful visual approach to the algorithm. All credits go to Shaul Markovitch on YouTube_
 
-2. **Evaluate Leaf Nodes:** At the leaf nodes (where the game ends), the algorithm evaluates the outcome assigning scores (win, lose, draw).
+## Ultimate Tic-Tac-Toe Rules
 
-3. **Minimize and Maximize:** The algorithm assumes that the AI aims to maximize its score (win), while the opponent aims to minimize the AI's score (making the AI lose). At each level, the algorithm chooses the move that provides the maximum score for the AI and the minimum score for the opponent.
+In this variant, each move directs where the next move will be. If a player places their symbol in a particular cell of a small board, the next move must be played in the corresponding cell of the main board.
 
-4. **Recursion:** The process continues recursively, with the algorithm moving back up the tree, selecting the best possible move at each level, until it reaches the current state of the game.
+### Game Board Illustration:
 
-5. **Best Move:** The top of the tree then contains the AI's optimal move based on the assumption that the opponent also plays optimally.
+![Ultimate Tic-Tac-Toe Board](https://upload.wikimedia.org/wikipedia/commons/a/a7/Ultimate_tic-tac-toe_X_victory.png)
 
-## Ultimate Tic-Tac-Toe: How It Works
+_Ultimate Tic-Tac-Toe game board (Image Credit: Wikimedia Commons)_
 
-In Ultimate Tic-Tac-Toe, each move affects which board the next player must play in. For example, if Player X places an 'X' in the top right square of a small board, Player O must play their next move on the small board located in the top right of the overall grid.
+## Getting Started
 
-### Visual Explanation:
-
-```
-Main Board:     |   Small Board:
-[0][1][2]       |   [0][1][2]
-[3][4][5]  ->   |   [3][4][5]
-[6][7][8]       |   [6] [7][8]
-
-- Each cell [0]-[8] in the Main Board contains a full Small Board.
-- A move in cell [n] in any Small Board directs the next move to the Small Board at cell [n] in the Main Board.
-```
-
-<div id="img" align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Ultimate_tic-tac-toe_X_victory.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" width="300" style="margin: 0 auto; display: block;"/>
-</div>
-
-<div id="caption" align="center">
-    <figcaption style="margin: 0 auto;" align="center">
-        Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from
-        <a href="https://commons.wikimedia.org/wiki/File:Ultimate_tic-tac-toe_X_victory.png">Wikimedia</a>
-    </figcaption>
-</div>
-
-## Installation
+### Installation
 
 1. **Clone the Repository:**
 
-   ```
+   ```bash
    git clone https://github.com/yantavares/ultimate-tic-tac-toe-ai
    cd ultimate-tic-tac-toe-ai
    ```
 
 2. **Install Dependencies:**
-   - Ensure Python is installed on your system.
-   - Install required packages using `requirements.txt`:
-     ```
-     pip install -r requirements.txt
-     ```
 
-## How to Play
+- Python 3.x required.
+- Run the following command to install necessary packages:
+  ```bash
+  pip install -r requirements.txt
+  ```
 
-1. **Start the Game:**
+### How to Play
 
-   - Launch the game by running a single script.
-     ```
-     python game.py
-     ```
+1. **Launch the Game:**
 
-2. **Train the AI:**
+   ```bash
+   python game.py
+   ```
 
-   - Upon starting the script, you'll be prompted to enter the training duration for the AI. This step is optional; you can enter `0` or skip it to use the AI's existing training level.
+2. **Set AI Depth:** Input the desired depth for the AI (number of moves ahead it should calculate).
 
-3. **Choose Game Mode:**
+3. **Choose Game Mode:** Select between Classic and Ultimate Tic-Tac-Toe.
 
-   - After the AI training (if opted), you'll be prompted to choose between the Classic and Ultimate version of Tic-Tac-Toe.
-
-4. **Game Rules:**
-
-   - Follow the on-screen instructions to play against the AI. The game rules for both Classic and Ultimate Tic-Tac-Toe will be displayed.
+4. **Play:** Follow the on-screen instructions to compete against the AI.
 
 ## License
 
-This project is licensed under the [GNU LICENSE](LICENSE).
+This project is released under the [GNU General Public License v3.0](LICENSE).
