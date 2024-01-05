@@ -33,9 +33,18 @@ In this variant, each move directs where the next move will be. If a player plac
 
 ### Game Board Illustration:
 
-![Ultimate Tic-Tac-Toe Board](https://upload.wikimedia.org/wikipedia/commons/7/7d/Super_tic-tac-toe_rules_example.png)
+<div id="img" align="center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Super_tic-tac-toe_rules_example.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" width="300" style="margin: 0 auto; display: block;"/>
+</div>
 
-_Image 1: Ultimate Tic-Tac-Toe game board (Image Credit: Wikipedia)_
+<br>
+
+<div id="caption" align="center">
+    <i style="margin: 0 auto;" align="center">
+        Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from
+        <a href="https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe">Wikipedia.</a>
+    </i>
+</div>
 
 ## Getting Started
 
