@@ -184,21 +184,20 @@ class UltimateGame:
                     self.player = 1
                     self.draw_figures()
 
-                if self.game_over:
-                    self.update_small_boards()
-                    result = self.check_win_or_tie()
-                    if result is not None:
-                        if result == 0:
-                            print("Tie!")
-                        elif result == 1:
-                            print("Player wins!")
-                        elif result == 2:
-                            print("AI wins!")
-                        else:
-                            raise ValueError("Invalid result")
-                        return
+            if self.game_over:
+                self.update_small_boards()
+                result = self.check_win_or_tie()
+                if result is not None:
+                    if result == 0:
+                        print("Tie!")
+                    elif result == 1:
+                        print("Player wins!")
+                    elif result == 2:
+                        print("AI wins!")
+                    else:
+                        raise ValueError("Invalid result")
 
-            print(self.game_over)
+            self.check_win_or_tie()
             self.update_small_boards()
             pygame.display.update()
 
