@@ -41,8 +41,8 @@ def minimax(board, isMaximizing, depth, maxDepth, rows=3, cols=3):
         else:
             return 0  # Tie
 
-    # Maximum depth reached (if maxDepth == -1, then there is no maximum depth)
-    if maxDepth != -1 and depth == maxDepth:
+    # Maximum depth reached (if maxDepth == 0, then there is no maximum depth)
+    if maxDepth != 0 and depth == maxDepth:
         return 0  # Stop searching
 
     if isMaximizing:

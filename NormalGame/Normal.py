@@ -8,7 +8,7 @@ else:
 
 
 class NormalGame:
-    def __init__(self, max_depth=-1):
+    def __init__(self, max_depth=0):
         pygame.init()
         self.width, self.height = 300, 300
         self.line_width = 15

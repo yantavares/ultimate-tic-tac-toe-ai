@@ -42,8 +42,13 @@ class Menu:
 
             moves_ahead_rect = pygame.Rect(
                 (self.width - 260) // 2, 300, 200, 50)
-            self.draw_text('Moves Ahead: ' + str(self.moves_ahead),
-                           moves_ahead_rect, center=False)
+
+            if self.moves_ahead == 0:
+                self.draw_text('Moves Ahead: INF',
+                               moves_ahead_rect, center=False)
+            else:
+                self.draw_text('Moves Ahead: ' + str(self.moves_ahead),
+                               moves_ahead_rect, center=False)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -59,7 +64,7 @@ class Menu:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         self.moves_ahead += 1
-                    elif event.key == pygame.K_DOWN and self.moves_ahead > 1:
+                    elif event.key == pygame.K_DOWN and self.moves_ahead > 0:
                         self.moves_ahead -= 1
 
             pygame.display.update()
