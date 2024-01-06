@@ -8,7 +8,7 @@ else:
 
 
 class UltimateGame:
-    def __init__(self, max_depth=4):
+    def __init__(self, max_depth=3):
         pygame.init()
         self.width, self.height = 600, 600
         self.line_width = 2
