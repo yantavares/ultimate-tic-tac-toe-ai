@@ -8,7 +8,7 @@ else:
 
 
 class UltimateGame:
-    def __init__(self, max_depth=3):
+    def __init__(self, max_depth=2):
         pygame.init()
         self.width, self.height = 600, 600
         self.line_width = 2
@@ -16,6 +16,7 @@ class UltimateGame:
         self.cell_size = self.width // self.cols
         self.bg_color = (28, 170, 156)
         self.line_color = (23, 145, 135)
+        self.winning_symbol_color = (255, 0, 0)
         self.main_line_color = (0, 0, 0)
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Ultimate Tic Tac Toe')
@@ -31,6 +32,7 @@ class UltimateGame:
     def run(self):
         self.screen.fill(self.bg_color)
         self.draw_lines()
+        print("Moves ahead:", self.max_depth)
         self.main_loop()
 
     def draw_lines(self):
@@ -93,30 +95,48 @@ class UltimateGame:
 
         return 0
 
-    def draw_winning_symbol_on_small_board(self, row, col):
+    def draw_winning_symbol_on_small_board(self, row, col, winner):
         first_row = row * 3
         first_col = col * 3
+        centerX = first_col * self.cell_size + 1.5 * self.cell_size
+        centerY = first_row * self.cell_size + 1.5 * self.cell_size
 
-        pass
+        if winner == 1:  # Player 1 (X)
+            pygame.draw.line(self.screen, self.winning_symbol_color,
+                             (centerX - 50, centerY - 50),
+                             (centerX + 50, centerY + 50), self.line_width)
+            pygame.draw.line(self.screen, self.winning_symbol_color,
+                             (centerX + 50, centerY - 50),
+                             (centerX - 50, centerY + 50), self.line_width)
+        elif winner == 2:  # Player 2 (O)
+            pygame.draw.circle(self.screen, self.winning_symbol_color,
+                               (int(centerX), int(centerY)), 50, self.line_width)
 
     def update_small_boards(self):
         for i in range(3):
             for j in range(3):
                 first_row = i * 3
                 first_col = j * 3
-                if self.check_win_or_tie_small_board(first_row, first_col) is not None:
-                    self.result_small_boards[i][j] = self.check_win_or_tie_small_board(
-                        first_row, first_col)
+                winner = self.check_win_or_tie_small_board(
+                    first_row, first_col)
+                if winner is not None:
+                    self.result_small_boards[i][j] = winner
 
+                    # Lock the locations of the won small board
                     for row in range(first_row, first_row + 3):
                         for col in range(first_col, first_col + 3):
                             self.locked_locations.append((row, col))
 
-                    self.draw_winning_symbol_on_small_board(i, j)
+                    # Draw the winning symbol on the won small board
+                    self.draw_winning_symbol_on_small_board(i, j, winner)
 
     def draw_winning_line(self, row1, col1, row2, col2):
-        pygame.draw.line(self.screen, self.main_line_color, (col1 * 100 + 50,
-                         row1 * 100 + 50), (col2 * 100 + 50, row2 * 100 + 50), 10)
+        start_x = col1 * 3 * self.cell_size + 1.5 * self.cell_size
+        start_y = row1 * 3 * self.cell_size + 1.5 * self.cell_size
+        end_x = col2 * 3 * self.cell_size + 1.5 * self.cell_size
+        end_y = row2 * 3 * self.cell_size + 1.5 * self.cell_size
+        pygame.draw.line(self.screen, self.main_line_color,
+                         (start_x, start_y), (end_x, end_y), 10)
 
     def check_win_or_tie(self):
         for row in range(3):  # Iterate over 3 rows instead of self.rows
