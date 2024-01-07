@@ -1,50 +1,40 @@
-# Ultimate Tic-Tac-Toe AI
+# Ultimate Tic-Tac-Toe AI with Enhanced Alpha-Beta Pruning
 
-Welcome to the Ultimate Tic-Tac-Toe AI project! This application takes the beloved game of Tic-Tac-Toe and elevates it with a challenging twist and AI integration. You can test your skills against an advanced AI opponent in both the Classic and Ultimate versions of Tic-Tac-Toe.
+Welcome to the Ultimate Tic-Tac-Toe AI project, now upgraded with alpha-beta pruning to optimize performance! This application enhances the classic game of Tic-Tac-Toe, adding a more complex and strategic variant - Ultimate Tic-Tac-Toe, along with a challenging AI opponent.
 
 ## Project Overview
 
-Ultimate Tic-Tac-Toe is a more complex variant of the traditional Tic-Tac-Toe. The game board consists of a 3x3 grid, where each cell itself is a smaller 3x3 Tic-Tac-Toe board. The AI, powered by the Minimax algorithm with variable depth, calculates moves ahead, providing a challenging gameplay experience.
+Ultimate Tic-Tac-Toe transforms the simple Tic-Tac-Toe game into a more sophisticated challenge. The game board is a 3x3 grid, with each cell containing another 3x3 Tic-Tac-Toe board. Our AI utilizes the Minimax algorithm, now improved with alpha-beta pruning, to calculate moves and provide an engaging gameplay experience.
 
 ### Key Features:
 
 - **Two Modes:** Classic and Ultimate Tic-Tac-Toe.
-- **Advanced AI:** AI uses the Minimax algorithm to simulate game scenarios.
-- **Customizable Difficulty:** Adjustable AI depth to set the challenge level.
-- **Interactive UI:** Engaging user interface for a seamless gaming experience.
+- **Enhanced AI:** Uses Minimax algorithm with alpha-beta pruning for efficient decision-making.
+- **Customizable Difficulty:** Vary the AI's calculation depth to adjust challenge levels.
+- **Alpha-Beta Pruning:** Reduces the number of nodes evaluated by the minimax algorithm in the search tree, greatly improving performance, especially in the Ultimate Tic-Tac-Toe mode.
 
-## The Minimax Algorithm
+## Enhanced Minimax Algorithm
 
-The Minimax algorithm is a decision-making tool used in artificial intelligence for optimal game-playing. Here's a breakdown of how it functions in our game:
+The Minimax algorithm, now with alpha-beta pruning, serves as the core of our AI's decision-making process:
 
-1. **Game Tree Generation:** It starts from the current game state and simulates all possible moves.
-2. **Scoring System:** Each end state of the game is scored based on whether it's a win, loss, or draw.
-3. **Optimization:** The algorithm seeks to maximize the AI's score while assuming the opponent is trying to do the opposite.
-4. **Recursion and Backtracking:** Through recursion, it evaluates the best possible move from the current state.
-5. **Depth Parameter:** The depth parameter controls how many moves ahead the AI will calculate, impacting the difficulty level.
+1. **Game Tree Generation:** Generates potential game scenarios from the current state.
+2. **Scoring System:** Assigns scores to terminal states (win, loss, draw).
+3. **Alpha-Beta Pruning:** Optimizes the evaluation process by eliminating lesser paths earlier.
+4. **Recursive Evaluation:** Determines the best move from the current game state.
+5. **Depth Control:** Adjusts the calculation depth, affecting the difficulty level.
 
-[![MinMax](https://img.youtube.com/vi/zDskcx8FStA/0.jpg)](https://www.youtube.com/watch?v=zDskcx8FStA)
+[![MiniMax](https://img.youtube.com/vi/zDskcx8FStA/0.jpg)](https://www.youtube.com/watch?v=zDskcx8FStA)
 
-_Click on this video to see a beautiful visual approach to the algorithm. All credits go to Shaul Markovitch on YouTube_
+_Click on this video to see a beautiful visual approach to the Minimax algorithm. All credits go to Shaul Markovitch on YouTube_
 
 ## Ultimate Tic-Tac-Toe Rules
 
-In this variant, each move directs where the next move will be. If a player places their symbol in a particular cell of a small board, the next move must be played in the corresponding cell of the main board.
+This variant's unique rule is that each move dictates the next play's location. If a player marks a cell in a small board, the next move must be in the corresponding cell of the main board.
 
 ### Game Board Illustration:
 
-<div id="img" align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Super_tic-tac-toe_rules_example.png" alt="Ultimate Tic-Tac-Toe Diagram" title="Ultimate Tic-Tac-Toe Board Example" width="300" style="margin: 0 auto; display: block;"/>
-</div>
-
-<br>
-
-<div id="caption" align="center">
-    <i style="margin: 0 auto;" align="center">
-        Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from
-        <a href="https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe">Wikipedia.</a>
-    </i>
-</div>
+![Ultimate Tic-Tac-Toe Board](https://upload.wikimedia.org/wikipedia/commons/7/7d/Super_tic-tac-toe_rules_example.png)
+_Figure 1: Ultimate Tic-Tac-Toe game board illustration._
 
 ## Getting Started
 
@@ -60,10 +50,7 @@ In this variant, each move directs where the next move will be. If a player plac
 2. **Install Dependencies:**
 
 - Python 3.x required.
-- Run the following command to install necessary packages:
-  ```bash
-  pip install -r requirements.txt
-  ```
+- Run `pip install -r requirements.txt`.
 
 ### How to Play
 
@@ -73,12 +60,20 @@ In this variant, each move directs where the next move will be. If a player plac
    python game.py
    ```
 
-2. **Set AI Depth:** Input the desired depth for the AI (number of moves ahead it should calculate).
+2. **Set AI Depth:** Input the desired depth (number of moves ahead to calculate).
 
-3. **Choose Game Mode:** Select between Classic and Ultimate Tic-Tac-Toe.
+3. **Choose Game Mode:** Select Classic or Ultimate Tic-Tac-Toe.
 
-4. **Play:** Follow the on-screen instructions to compete against the AI.
+4. **Play:** Compete against the AI following on-screen instructions.
+
+## Enhanced AI Mechanics
+
+- **Alpha-Beta Pruning:** This technique is used in Ultimate Tic-Tac-Toe for better performance. It helps the AI to discard less promising moves faster, making the decision-making process much more efficient.
+
+- **Board Evaluation:** In Ultimate Tic-Tac-Toe, the AI evaluates both each small board and the overall 3x3 grid to determine the best move. For the Classic mode, the approach is more brute-force due to the simpler game dynamics.
+
+- **Depth Parameter:** In Ultimate Tic-Tac-Toe, a recommended depth is 2 due to the complexity of the algorithm. This ensures the AI is smart yet responsive. For the Classic version, setting the depth beyond one allows for unlimited moves ahead, ideal for simpler gameplay.
 
 ## License
 
-This project is released under the [GNU General Public License v3.0](LICENSE).
+This project is under the [GNU General Public License v3.0](LICENSE).
