@@ -34,7 +34,7 @@ This variant's unique rule is that each move dictates the next play's location. 
 ### Game Board Illustration:
 
 ![Ultimate Tic-Tac-Toe Board](https://upload.wikimedia.org/wikipedia/commons/7/7d/Super_tic-tac-toe_rules_example.png)
-_Figure 1: Ultimate Tic-Tac-Toe game board illustration._
+_Figure 1: Ultimate Tic-Tac-Toe game board illustration. Image from Wikipedia._
 
 ## Getting Started
 
