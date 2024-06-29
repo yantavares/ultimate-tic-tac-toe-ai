@@ -23,6 +23,8 @@ class UltimateGame:
         self.board = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         self.player = 1  # Player 1 starts (represented by 1, player 2 by 2)
 
+        self.is_thinking = False
+
         self.max_depth = max_depth
         self.locked_locations = []
 
@@ -172,23 +174,23 @@ class UltimateGame:
 
     def main_loop(self):
         while True:
-            for event in pygame.event.get():
+            event = None
+            # Process all available events and keep only the latest
+            for e in pygame.event.get():
+                event = e
+
+            if event:
                 if event.type == pygame.QUIT:
                     sys.exit()
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    sys.exit() # Exit the game
+                if self.is_thinking:
+                    continue  # Skip processing any events if AI is thinking
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_r:  # Restart game
-                    self.board = [
-                        [0 for _ in range(self.cols)] for _ in range(self.rows)]
-                    self.player = 1
-                    self.game_over = False
-                    self.result_small_boards = [
-                        [0 for _ in range(3)] for _ in range(3)]
-                    self.locked_locations = []  # Reset locked locations as well
-                    self.screen.fill(self.bg_color)
-                    self.draw_lines()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        sys.exit()  # Exit the game
+                    elif event.key == pygame.K_r:  # Restart game
+                        self.reset_game()
 
                 if event.type == pygame.MOUSEBUTTONDOWN and not self.game_over and self.player == 1:
                     mouseX, mouseY = event.pos
@@ -200,32 +202,24 @@ class UltimateGame:
 
                     self.draw_figures()
 
-                if self.player == 2 and not self.game_over:
+                if self.player == 2 and not self.game_over and not self.is_thinking:
                     print("Thinking...")
-                    pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN) # Block mouse events
-                    self.board = make_move(
-                        self.board, self.max_depth)
+                    self.board = make_move(self.board, self.max_depth)
                     self.player = 1
-                    pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
+                    self.is_thinking = False
                     self.draw_figures()
 
             if self.game_over:
                 self.update_small_boards()
                 result = self.check_win_or_tie()
-                if result is not None and not self.message_shown:  # Add a condition to prevent repetitive messages
-                    if result == 0:
-                        print("Tie!")
-                    elif result == 1:
-                        print("Player wins!")
-                    elif result == 2:
-                        print("AI wins!")
-                    else:
-                        raise ValueError("Invalid result")
-                    self.message_shown = True  # Set flag to indicate message has been shown
+                if result is not None and not hasattr(self, 'message_shown'):
+                    print("Game result:", "Tie!" if result == 0 else "Player wins!" if result == 1 else "AI wins!")
+                    setattr(self, 'message_shown', True)  # Set flag to indicate message has been shown
             else:
                 self.check_win_or_tie()
                 self.update_small_boards()
-                self.message_shown = False  # Reset flag when game is not over
+                if hasattr(self, 'message_shown'):
+                    delattr(self, 'message_shown')  # Reset the flag when the game is not over
 
             pygame.display.update()
 
