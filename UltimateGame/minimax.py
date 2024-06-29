@@ -1,6 +1,9 @@
 import random
 import math
+import time
 
+# Transposition table to store evaluated boards
+transposition_table = {}
 
 def check_win_or_tie_minimax(board):
     def check_small_board_win(board, start_row, start_col):
@@ -44,59 +47,98 @@ def check_win_or_tie_minimax(board):
     return 0  # Tie
 
 
-def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, rows=9, cols=9):
-    """
-    Minimax algorithm with alpha-beta pruning.
-    """
+def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, start_time, time_limit):
+    # Check if time limit exceeded
+    if time.time() - start_time > time_limit:
+        return evaluate_board(board)
+
+    board_key = tuple(tuple(row) for row in board)
+    if board_key in transposition_table:
+        return transposition_table[board_key]
+
     result = check_win_or_tie_minimax(board)
-
-    # Base cases
     if result is not None:
-        return evaluate_result(result)  # Evaluate the result
-
+        return evaluate_result(result)
     if maxDepth != 0 and depth == maxDepth:
-        return evaluate_board(board)  # Evaluate the board state
+        return evaluate_board(board)
 
     if isMaximizing:
-        bestScore = -math.inf
-        for row in range(rows):
-            for col in range(cols):
-                if board[row][col] == 0:
-                    board[row][col] = 2
-                    score = minimax(board, False, depth + 1,
-                                    maxDepth, alpha, beta)
-                    board[row][col] = 0
-                    bestScore = max(score, bestScore)
-                    alpha = max(alpha, score)
-                    if beta <= alpha:
-                        break
+        maxEval = -math.inf
+        for move in get_possible_moves(board):
+            score = minimax(make_temporary_move(board, move, 2), False, depth + 1, maxDepth, alpha, beta, start_time, time_limit)
+            undo_move(board, move)
+            maxEval = max(maxEval, score)
+            alpha = max(alpha, score)
             if beta <= alpha:
                 break
     else:
-        bestScore = math.inf
-        for row in range(rows):
-            for col in range(cols):
-                if board[row][col] == 0:
-                    board[row][col] = 1
-                    score = minimax(board, True, depth + 1,
-                                    maxDepth, alpha, beta)
-                    board[row][col] = 0
-                    bestScore = min(score, bestScore)
-                    beta = min(beta, score)
-                    if beta <= alpha:
-                        break
+        minEval = math.inf
+        for move in get_possible_moves(board):
+            score = minimax(make_temporary_move(board, move, 1), True, depth + 1, maxDepth, alpha, beta, start_time, time_limit)
+            undo_move(board, move)
+            minEval = min(minEval, score)
+            beta = min(beta, score)
             if beta <= alpha:
                 break
-    return bestScore
 
+    transposition_table[board_key] = maxEval if isMaximizing else minEval
+    return maxEval if isMaximizing else minEval
+
+def make_move(board, maxDepth):
+    bestScore = -math.inf
+    bestMoves = []
+    start_time = time.time()  # Start timing for timeout
+    time_limit = 10  # seconds
+
+    for move in get_possible_moves(board):
+        new_board = make_temporary_move([row[:] for row in board], move, 2)
+        score = minimax(new_board, False, 0, maxDepth, -math.inf, math.inf, start_time, time_limit)
+        undo_move(new_board, move)
+
+        # Check if the minimax computation was interrupted due to timeout
+        if time.time() - start_time > time_limit:
+            print(f"Timeout exceeded during evaluation of move {move}")
+            continue
+
+        if score > bestScore:
+            bestScore = score
+            bestMoves = [move]
+        elif score == bestScore:
+            bestMoves.append(move)
+
+    if bestMoves:
+        bestMove = random.choice(bestMoves)
+        board[bestMove[0]][bestMove[1]] = 2
+
+    return board
 
 def evaluate_result(result):
     if result == 1:  # Player wins
-        return -10
+        return -40
     elif result == 2:  # AI Wins
-        return 10
+        return 45
     else:
         return 0  # Tie
+
+def get_possible_moves(board):
+    # Returns a list of possible moves (row, col) for the player
+    return [(i, j) for i in range(9) for j in range(9) if board[i][j] == 0]
+
+def make_temporary_move(board, move, player):
+    board[move[0]][move[1]] = player
+    return board
+
+def undo_move(board, move):
+    board[move[0]][move[1]] = 0
+    return board
+
+def make_temporary_move(board, move, player):
+    board[move[0]][move[1]] = player
+    return board
+
+def undo_move(board, move):
+    board[move[0]][move[1]] = 0
+    return board
 
 
 def evaluate_board(board):
@@ -143,13 +185,13 @@ def evaluate_small_board(board, start_row, start_col):
 
 def evaluate_line(line):
     if line.count(2) == 3:
-        return 100  # AI wins the line
+        return 500  # AI wins the line
     elif line.count(1) == 3:
-        return -100  # Opponent wins the line
+        return -400  # Opponent wins the line
     elif line.count(2) == 2 and line.count(0) == 1:
-        return 10  # AI is close to winning the line
+        return 100  # AI is close to winning the line
     elif line.count(1) == 2 and line.count(0) == 1:
-        return -10  # Opponent is close to winning the line
+        return -90  # Opponent is close to winning the line
     return 0
 
 
@@ -192,25 +234,4 @@ def get_small_board_winner(board, start_row, start_col):
     return 0  # No winner in the small board
 
 
-def make_move(board, maxDepth, rows=9, cols=9):
-    bestScore = -math.inf
-    bestMoves = []
 
-    for row in range(rows):
-        for col in range(cols):
-            if board[row][col] == 0:
-                board[row][col] = 2  # AI move
-                score = minimax(board, False, 0, maxDepth, -math.inf, math.inf)
-                board[row][col] = 0  # Undo move
-
-                if score > bestScore:
-                    bestScore = score
-                    bestMoves = [(row, col)]
-                elif score == bestScore:
-                    bestMoves.append((row, col))
-
-    if bestMoves:
-        # Choose randomly among the best moves
-        bestMove = random.choice(bestMoves)
-        board[bestMove[0]][bestMove[1]] = 2
-    return board

@@ -20,7 +20,7 @@ class Menu:
         self.normal_button = pygame.Rect((self.width - 200) // 2, 100, 200, 50)
         self.ultimate_button = pygame.Rect(
             (self.width - 200) // 2, 200, 200, 50)
-        self.moves_ahead = 3
+        self.moves_ahead = 4
 
     def run(self):
         running = True

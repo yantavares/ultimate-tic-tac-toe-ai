@@ -8,7 +8,7 @@ else:
 
 
 class UltimateGame:
-    def __init__(self, max_depth=2):
+    def __init__(self, max_depth=3):
         pygame.init()
         self.width, self.height = 600, 600
         self.line_width = 2
@@ -177,7 +177,7 @@ class UltimateGame:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    sys.exit()  # Replace with logic to return to menu later
+                    sys.exit() # Exit the game
 
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_r:  # Restart game
                     self.board = [
@@ -201,9 +201,12 @@ class UltimateGame:
                     self.draw_figures()
 
                 if self.player == 2 and not self.game_over:
+                    print("Thinking...")
+                    pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN) # Block mouse events
                     self.board = make_move(
-                        self.board, self.max_depth, 9, 9)
+                        self.board, self.max_depth)
                     self.player = 1
+                    pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     self.draw_figures()
 
             if self.game_over:
