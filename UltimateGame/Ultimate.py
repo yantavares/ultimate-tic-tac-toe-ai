@@ -127,7 +127,8 @@ class UltimateGame:
                     # Lock the locations of the won small board
                     for row in range(first_row, first_row + 3):
                         for col in range(first_col, first_col + 3):
-                            self.locked_locations.append((row, col))
+                            if (row, col) not in self.locked_locations:
+                                self.locked_locations.append((row, col))
 
                     # Draw the winning symbol on the won small board
                     self.draw_winning_symbol_on_small_board(i, j, winner)
@@ -203,11 +204,12 @@ class UltimateGame:
                     self.draw_figures()
 
                 if self.player == 2 and not self.game_over and not self.is_thinking:
+                    self.is_thinking = True
                     print("Thinking...")
-                    self.board = make_move(self.board, self.max_depth)
+                    self.board = make_move(self.board, self.max_depth, self.locked_locations)
                     self.player = 1
-                    self.is_thinking = False
                     self.draw_figures()
+                    self.is_thinking = False
 
             if self.game_over:
                 self.update_small_boards()

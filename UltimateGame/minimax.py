@@ -5,8 +5,7 @@ import time
 # Transposition table to store evaluated boards
 transposition_table = {}
 
-def check_win_or_tie_minimax(board):
-    def check_small_board_win(board, start_row, start_col):
+def check_small_board_win(board, start_row, start_col):
         # Check rows, columns, and diagonals in a 3x3 small board
         for i in range(3):
             if board[start_row + i][start_col] == board[start_row + i][start_col + 1] == board[start_row + i][start_col + 2] != 0:
@@ -21,6 +20,9 @@ def check_win_or_tie_minimax(board):
 
         return None
 
+
+def check_win_or_tie_minimax(board):
+    
     # Check each small board for a win or tie
     small_board_results = [[check_small_board_win(
         board, i * 3, j * 3) for j in range(3)] for i in range(3)]
@@ -47,7 +49,7 @@ def check_win_or_tie_minimax(board):
     return 0  # Tie
 
 
-def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, start_time, time_limit):
+def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, start_time, time_limit, lockedLocations):
     # Check if time limit exceeded
     if time.time() - start_time > time_limit:
         return evaluate_board(board)
@@ -64,8 +66,8 @@ def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, start_time, time_
 
     if isMaximizing:
         maxEval = -math.inf
-        for move in get_possible_moves(board):
-            score = minimax(make_temporary_move(board, move, 2), False, depth + 1, maxDepth, alpha, beta, start_time, time_limit)
+        for move in get_possible_moves(board, lockedLocations):
+            score = minimax(make_temporary_move(board, move, 2), False, depth + 1, maxDepth, alpha, beta, start_time, time_limit, lockedLocations)
             undo_move(board, move)
             maxEval = max(maxEval, score)
             alpha = max(alpha, score)
@@ -73,8 +75,8 @@ def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, start_time, time_
                 break
     else:
         minEval = math.inf
-        for move in get_possible_moves(board):
-            score = minimax(make_temporary_move(board, move, 1), True, depth + 1, maxDepth, alpha, beta, start_time, time_limit)
+        for move in get_possible_moves(board, lockedLocations):
+            score = minimax(make_temporary_move(board, move, 1), True, depth + 1, maxDepth, alpha, beta, start_time, time_limit, lockedLocations)
             undo_move(board, move)
             minEval = min(minEval, score)
             beta = min(beta, score)
@@ -84,15 +86,15 @@ def minimax(board, isMaximizing, depth, maxDepth, alpha, beta, start_time, time_
     transposition_table[board_key] = maxEval if isMaximizing else minEval
     return maxEval if isMaximizing else minEval
 
-def make_move(board, maxDepth):
+def make_move(board, maxDepth, lockedLocations):
     bestScore = -math.inf
     bestMoves = []
     start_time = time.time()  # Start timing for timeout
     time_limit = 10  # seconds
 
-    for move in get_possible_moves(board):
+    for move in get_possible_moves(board, lockedLocations):
         new_board = make_temporary_move([row[:] for row in board], move, 2)
-        score = minimax(new_board, False, 0, maxDepth, -math.inf, math.inf, start_time, time_limit)
+        score = minimax(new_board, False, 0, maxDepth, -math.inf, math.inf, start_time, time_limit, lockedLocations)
         undo_move(new_board, move)
 
         # Check if the minimax computation was interrupted due to timeout
@@ -114,15 +116,15 @@ def make_move(board, maxDepth):
 
 def evaluate_result(result):
     if result == 1:  # Player wins
-        return -40
+        return -450
     elif result == 2:  # AI Wins
-        return 45
+        return 450
     else:
         return 0  # Tie
 
-def get_possible_moves(board):
+def get_possible_moves(board, lockedLocations):
     # Returns a list of possible moves (row, col) for the player
-    return [(i, j) for i in range(9) for j in range(9) if board[i][j] == 0]
+    return [(i, j) for i in range(9) for j in range(9) if board[i][j] == 0 and (i, j) not in lockedLocations]
 
 def make_temporary_move(board, move, player):
     board[move[0]][move[1]] = player
@@ -185,13 +187,24 @@ def evaluate_small_board(board, start_row, start_col):
 
 def evaluate_line(line):
     if line.count(2) == 3:
-        return 500  # AI wins the line
+        return 20  # AI wins the line
     elif line.count(1) == 3:
-        return -400  # Opponent wins the line
+        return -20  # Opponent wins the line
     elif line.count(2) == 2 and line.count(0) == 1:
-        return 100  # AI is close to winning the line
+        return 1  # AI is close to winning the line
     elif line.count(1) == 2 and line.count(0) == 1:
-        return -90  # Opponent is close to winning the line
+        return -1  # Opponent is close to winning the line
+    return 0
+
+def evaluate_grid_line(line):
+    if line.count(2) == 3:
+        return 200  # AI wins the line
+    elif line.count(1) == 3:
+        return -200  # Opponent wins the line
+    elif line.count(2) == 2 and line.count(0) == 1:
+        return 6  # AI is close to winning the line
+    elif line.count(1) == 2 and line.count(0) == 1:
+        return -6  # Opponent is close to winning the line
     return 0
 
 
@@ -203,16 +216,16 @@ def evaluate_overall_grid(board):
     # Check rows, columns, and diagonals in the overall 3x3 grid
     for i in range(3):
         # Row
-        overall_grid_score += evaluate_line([small_boards[i][j]
+        overall_grid_score += evaluate_grid_line([small_boards[i][j]
                                             for j in range(3)])
         # Column
-        overall_grid_score += evaluate_line([small_boards[j][i]
+        overall_grid_score += evaluate_grid_line([small_boards[j][i]
                                             for j in range(3)])
 
     # Diagonal 1
-    overall_grid_score += evaluate_line([small_boards[i][i] for i in range(3)])
+    overall_grid_score += evaluate_grid_line([small_boards[i][i] for i in range(3)])
     # Diagonal 2
-    overall_grid_score += evaluate_line([small_boards[i][2 - i]
+    overall_grid_score += evaluate_grid_line([small_boards[i][2 - i]
                                         for i in range(3)])
 
     return overall_grid_score
@@ -232,6 +245,3 @@ def get_small_board_winner(board, start_row, start_col):
         return board[start_row + 2][start_col]
 
     return 0  # No winner in the small board
-
-
-
